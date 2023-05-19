@@ -30,9 +30,12 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const toysCollection = client.db("toyDB").collection('toy');
+    const toysCollection = client.db("toysDB").collection('toys');
     
-    
+    app.get('/toys',async(req,res)=>{
+      const result = await toysCollection.find().toArray();
+      res.send(result);
+    })
 
 
 
