@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const cors = require('cors');
 require('dotenv').config()
@@ -35,6 +35,16 @@ async function run() {
     app.get('/toys',async(req,res)=>{
       const result = await toysCollection.find().toArray();
       res.send(result);
+    })
+     app.get('/toys/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+       const options = {
+      // Include only the `title` and `imdb` fields in the returned document
+      projection: { name: 1, price: 1,quantity:1,img:1,details:1 },
+    };
+      const result = await toysCollection.findOne(query,options);
+      res.send(result)
     })
 
 
