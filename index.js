@@ -31,21 +31,18 @@ async function run() {
     await client.connect();
 
     const toysCollection = client.db("toysDB").collection('toys');
+ 
     
     app.get('/toys',async(req,res)=>{
-      const result = await toysCollection.find().toArray();
+      const result = await toysCollection.find().limit(20).toArray();
       res.send(result);
     })
-     app.get('/toys/:id',async(req,res)=>{
-      const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-       const options = {
-      // Include only the `title` and `imdb` fields in the returned document
-      projection: { name: 1, price: 1,quantity:1,img:1,details:1 },
-    };
-      const result = await toysCollection.findOne(query,options);
-      res.send(result)
+
+    app.post('/toys',async(req,res)=>{
+      const toys = req.body;
+      console.log(toys);
     })
+
 
 
 
