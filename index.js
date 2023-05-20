@@ -37,10 +37,19 @@ async function run() {
       const result = await toysCollection.find().limit(20).toArray();
       res.send(result);
     })
-
+    
+    // for store data 
     app.post('/toys',async(req,res)=>{
       const toys = req.body;
       const result = await toysCollection.insertOne(toys);
+      res.send(result);
+    })
+
+    // for delete data
+    app.delete('/toys/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await toysCollection.deleteOne(query);
       res.send(result);
     })
 
